@@ -1,1 +1,22 @@
 @import "tailwindcss";
+
+
+@keyframes vadaFloatY {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes vadaFloatX {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(8px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes vadaFloatCircle {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(6px, -6px); }
+  50% { transform: translate(0, -12px); }
+  75% { transform: translate(-6px, -6px); }
+  100% { transform: translate(0, 0); }
+}
