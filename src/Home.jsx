@@ -24,6 +24,7 @@ function Home() {
   const bitesOnCurrentVada = bites % 5;
   const vadaStages = [vadaImg2, vadaBite1, vadaBite2, vadaBite3, vadaBite4];
   const [vadaVisible, setVadaVisible] = useState(true);
+  const [vadaRotation, setVadaRotation] = useState(0); // rotation in degrees
   // Change this value to increase/decrease the boundary below the vada image and score
   const safeZoneHeight = 350; // px
   // Change this value to control the number of vadas in the background
@@ -73,6 +74,8 @@ function Home() {
       setTimeout(() => {
         setBites(bites + 1);
         setVadaVisible(true);
+        // Set a new random rotation for the next vada
+        setVadaRotation(Math.floor(Math.random() * 360));
       }, 300); // 300ms delay before next vada
     } else {
       setBites(bites + 1);
@@ -156,7 +159,7 @@ function Home() {
                 />
               </div>
               <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-                {/* Main vada image, changes to bite images as bites increase, resets every 5 bites, with delay before next vada */}
+                {/* Main vada image, changes to bite images as bites increase, resets every 5 bites, with delay before next vada. Rotates for each vada. */}
                 {vadaVisible && bitesOnCurrentVada < 5 && (
                   <img
                     src={vadaStages[bitesOnCurrentVada]}
@@ -172,6 +175,7 @@ function Home() {
                       pointerEvents: 'none',
                       display: 'block',
                       objectFit: 'cover',
+                      transform: `rotate(${vadaRotation}deg)`,
                     }}
                   />
                 )}
