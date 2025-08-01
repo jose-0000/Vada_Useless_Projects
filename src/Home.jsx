@@ -4,10 +4,13 @@ import mainPageBg1 from './assets/Main_Page_v1.png';
 import mainPageBg2 from './assets/Main_Page_v2.png';
 import EatButton from './EatButton.jsx'
 import vadaImg from './assets/vada.png';
+import vadaImg2 from './assets/og_vada.png';
+import plateImg from './assets/plate_2.png';
 import Score from './Score.jsx';
 import Timer from './Timer.jsx';
 
 function Home() {
+  const [gameStarted, setGameStarted] = useState(false);
   const [bites, setBites] = useState(0);
   // Change this value to increase/decrease the boundary below the vada image and score
   const safeZoneHeight = 350; // px
@@ -40,6 +43,7 @@ function Home() {
           top: `${top}%`,
           left: `${left}%`,
           animation: animations[Math.floor(Math.random() * animations.length)],
+        //   rotation: 90,
         });
       }
       attempts++;
@@ -79,51 +83,109 @@ function Home() {
         overflow: 'hidden',
       }}
     >
-      <Timer initialSeconds={30} onEnd={() => alert('Time is up!')} />
-      {/* Floating vadas in the background, randomly scattered with spacing */}
-      {vadaPositions.map((pos, idx) => (
-        <img
-          key={idx}
-          src={vadaImg}
-          alt="Vada bg"
-          draggable={false}
+      {/* Overlay for start screen */}
+      {!gameStarted && (
+        <div
           style={{
-            position: 'absolute',
-            top: pos.top,
-            left: pos.left,
-            width: `${vadaSize}px`,
-            height: `${vadaSize}px`,
-            opacity: 0.3,
-            pointerEvents: 'none',
-            userSelect: 'none',
-            zIndex: 0,
-            transform: 'translate(-50%, -50%)',
-            animation: `${pos.animation} 3s ease-in-out infinite`,
-            animationDelay: `${(idx % 8) * 0.3}s`,
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100vw',
+            height: '100vh',
+            background: 'rgba(0,0,0,0.7)',
+            zIndex: 999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
           }}
-        />
-      ))}
-      {/* Main content */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', position: 'relative', zIndex: 1 }}>
-        <img
-          src={vadaImg}
-          alt="Vada"
-          draggable={false}
-          style={{
-            maxWidth: '300px',
-            width: '100%',
-            height: 'auto',
-            marginBottom: '24px',
-            userSelect: 'none',
-            WebkitUserSelect: 'none',
-            MozUserSelect: 'none',
-            msUserSelect: 'none',
-            pointerEvents: 'none',
-          }}
-        />
-        <Score bites={bites} />
-      </div>
-      <EatButton onClick={handleEatVada} position={buttonPos} />
+        >
+          <button
+            style={{
+              padding: '1rem 2.5rem',
+              fontSize: '2rem',
+              fontWeight: 'bold',
+              color: '#fff',
+              background: '#222',
+              border: '2px solid #fff',
+              borderRadius: '12px',
+              cursor: 'pointer',
+              boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
+            }}
+            onClick={() => setGameStarted(true)}
+          >
+            Start Game
+          </button>
+        </div>
+      )}
+      {/* Game content */}
+      {gameStarted && (
+        <>
+          <Timer initialSeconds={30} onEnd={() => alert('Time is up!')} />
+          {/* Floating vadas in the background, randomly scattered with spacing */}
+          {vadaPositions.map((pos, idx) => (
+            <img
+              key={idx}
+              src={vadaImg}
+              alt="Vada bg"
+              draggable={false}
+              style={{
+                position: 'absolute',
+                top: pos.top,
+                left: pos.left,
+                width: `${vadaSize}px`,
+                height: `${vadaSize}px`,
+                opacity: 0.3,
+                pointerEvents: 'none',
+                userSelect: 'none',
+                zIndex: 0,
+                transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`,
+                animation: `${pos.animation} 3s ease-in-out infinite`,
+                animationDelay: `${(idx % 8) * 0.3}s`,
+              }}
+            />
+          ))}
+          {/* Main content */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', position: 'relative', zIndex: 1 }}>
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={plateImg}
+                  alt="Plate"
+                  draggable={false}
+                  style={{
+                    width: '500px', // control plate size here
+                    height: 'auto',
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                    zIndex: 1,
+                    display: 'block',
+                  }}
+                />
+              </div>
+              <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
+                <img
+                  src={vadaImg2}
+                  alt="Vada"
+                  draggable={false}
+                  style={{
+                    width: '300px', // control vada size here
+                    height: 'auto',
+                    userSelect: 'none',
+                    WebkitUserSelect: 'none',
+                    MozUserSelect: 'none',
+                    msUserSelect: 'none',
+                    pointerEvents: 'none',
+                    display: 'block',
+                  }}
+                />
+              </div>
+            </div>
+            <Score bites={bites} />
+          </div>
+          <EatButton onClick={handleEatVada} position={buttonPos} />
+        </>
+      )}
     </div>
   );
 }
