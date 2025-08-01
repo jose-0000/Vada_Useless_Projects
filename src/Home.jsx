@@ -31,6 +31,7 @@ function Home() {
   const vadaSize = 30; // px, all vadas same size (smaller)
   const minDistance = 100; // px, minimum distance between vadas (increased for smaller size)
   const [buttonPos, setButtonPos] = useState({ top: '60%', left: '50%' });
+  const vadasEaten = Math.floor(bites / 5);
 
   // Generate random positions for vadas with minimum spacing
   function generateVadaPositions(count, minDist, size) {
@@ -176,17 +177,16 @@ function Home() {
                 )}
               </div>
             </div>
-            <Score bites={bites} />
+            <Score bites={vadasEaten} />
           </div>
           <EatButton onClick={handleEatVada} position={buttonPos} />
         </>
       )}
 
       {/* Show result overlay when game is over */}
-      {gameOver && <Result score={bites} />}
+      {gameOver && <Result score={vadasEaten} />}
     </div>
   );
 }
 
 export default Home
-
