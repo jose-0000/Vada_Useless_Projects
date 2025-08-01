@@ -4,6 +4,7 @@ import mainPageBg from './assets/Main_Page.png';
 import mainPageBg1 from './assets/Main_Page_v1.png';
 import mainPageBg2 from './assets/Main_Page_v2.png';
 import EatButton from './EatButton.jsx'
+import StartGame from './StartGame.jsx'
 import vadaImg from './assets/vada.png';
 import vadaImg2 from './assets/og_vada.png';
 import vadaBite1 from './assets/og_vada_bite1.png';
@@ -13,10 +14,12 @@ import vadaBite4 from './assets/og_vada_bite4.png';
 import plateImg from './assets/plate_2.png';
 import Score from './Score.jsx';
 import Timer from './Timer.jsx';
+import Result from './Result.jsx';
 
 function Home() {
   const [gameStarted, setGameStarted] = useState(false);
   const [bites, setBites] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
   // Show a new vada every 5 bites
   const bitesOnCurrentVada = bites % 5;
   const vadaStages = [vadaImg2, vadaBite1, vadaBite2, vadaBite3, vadaBite4];
@@ -49,8 +52,8 @@ function Home() {
       }
       if (!tooClose) {
         positions.push({
-          top: `${top}%`,
-          left: `${left}%`,
+          top: ${top}%,
+          left: ${left}%,
           animation: animations[Math.floor(Math.random() * animations.length)],
         //   rotation: 90,
         });
@@ -85,7 +88,7 @@ function Home() {
       // Generate random position within the allowed area
       const topPx = minTopPx + Math.random() * (maxTopPx - minTopPx);
       const leftPx = minLeftPx + Math.random() * (maxLeftPx - minLeftPx);
-      setButtonPos({ top: `${topPx}px`, left: `${leftPx}px` });
+      setButtonPos({ top: ${topPx}px, left: ${leftPx}px });
     }
   };
 
@@ -93,7 +96,7 @@ function Home() {
     <div
       style={{
         minHeight: '100vh',
-        backgroundImage: `url(${mainPageBg2})`,
+        backgroundImage: url(${mainPageBg2}),
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -103,44 +106,13 @@ function Home() {
     >
       {/* Overlay for start screen */}
       {!gameStarted && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100vw',
-            height: '100vh',
-            background: 'rgba(0,0,0,0.7)',
-            zIndex: 999,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-          }}
-        >
-          <button
-            style={{
-              padding: '1rem 2.5rem',
-              fontSize: '2rem',
-              fontWeight: 'bold',
-              color: '#fff',
-              background: '#222',
-              border: '2px solid #fff',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              boxShadow: '0 2px 16px rgba(0,0,0,0.3)',
-            }}
-            onClick={() => setGameStarted(true)}
-          >
-            Start Game
-          </button>
-        </div>
+        <StartGame onStart={() => setGameStarted(true)} />
       )}
       {/* Game content */}
-      {gameStarted && (
+      {gameStarted && !gameOver && (
         <>
           {/* Timer should always be rendered and never remounted or paused by vada logic */}
-          <Timer initialSeconds={30} onEnd={() => alert('Time is up!')} />
+          <Timer initialSeconds={5} onEnd={() => setGameOver(true)} />
           {/* Floating vadas in the background, randomly scattered with spacing */}
           {vadaPositions.map((pos, idx) => (
             <img
@@ -152,15 +124,15 @@ function Home() {
                 position: 'absolute',
                 top: pos.top,
                 left: pos.left,
-                width: `${vadaSize}px`,
-                height: `${vadaSize}px`,
+                width: ${vadaSize}px,
+                height: ${vadaSize}px,
                 opacity: 0.3,
                 pointerEvents: 'none',
                 userSelect: 'none',
                 zIndex: 0,
-                transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`,
-                animation: `${pos.animation} 3s ease-in-out infinite`,
-                animationDelay: `${(idx % 8) * 0.3}s`,
+                transform: translate(-50%, -50%) rotate(${pos.rotation}deg),
+                animation: ${pos.animation} 3s ease-in-out infinite,
+                animationDelay: ${(idx % 8) * 0.3}s,
               }}
             />
           ))}
@@ -187,7 +159,7 @@ function Home() {
                 {vadaVisible && bitesOnCurrentVada < 5 && (
                   <img
                     src={vadaStages[bitesOnCurrentVada]}
-                    alt={`Vada bite ${bitesOnCurrentVada}`}
+                    alt={Vada bite ${bitesOnCurrentVada}}
                     draggable={false}
                     style={{
                       width: '300px',
@@ -209,9 +181,11 @@ function Home() {
           <EatButton onClick={handleEatVada} position={buttonPos} />
         </>
       )}
+
+      {/* Show result overlay when game is over */}
+      {gameOver && <Result score={bites} />}
     </div>
   );
 }
 
 export default Home
-
