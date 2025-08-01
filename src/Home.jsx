@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react'
+import picnicTableBackground from './assets/picnic_table_1.jpg';
 import mainPageBg from './assets/Main_Page.png';
 import mainPageBg1 from './assets/Main_Page_v1.png';
 import mainPageBg2 from './assets/Main_Page_v2.png';
@@ -12,6 +13,9 @@ import Timer from './Timer.jsx';
 function Home() {
   const [gameStarted, setGameStarted] = useState(false);
   const [bites, setBites] = useState(0);
+  // Show a new vada every 5 bites
+  const bitesOnCurrentVada = bites % 5;
+  const [vadaVisible, setVadaVisible] = useState(true);
   // Change this value to increase/decrease the boundary below the vada image and score
   const safeZoneHeight = 350; // px
   // Change this value to control the number of vadas in the background
@@ -54,7 +58,16 @@ function Home() {
   const vadaPositions = useMemo(() => generateVadaPositions(vadaDensity, minDistance, vadaSize), [vadaDensity, minDistance, vadaSize]);
 
   const handleEatVada = () => {
-    setBites(bites + 1);
+    // If last bite on current vada, hide vada and show next after delay
+    if (bitesOnCurrentVada === 4) {
+      setVadaVisible(false);
+      setTimeout(() => {
+        setBites(bites + 1);
+        setVadaVisible(true);
+      }, 300); // 300ms delay before next vada
+    } else {
+      setBites(bites + 1);
+    }
     if (Math.random() < 0.5) {
       // Get viewport height and width
       const viewportHeight = window.innerHeight;
@@ -121,6 +134,7 @@ function Home() {
       {/* Game content */}
       {gameStarted && (
         <>
+          {/* Timer should always be rendered and never remounted or paused by vada logic */}
           <Timer initialSeconds={30} onEnd={() => alert('Time is up!')} />
           {/* Floating vadas in the background, randomly scattered with spacing */}
           {vadaPositions.map((pos, idx) => (
@@ -164,21 +178,27 @@ function Home() {
                 />
               </div>
               <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-                <img
-                  src={vadaImg2}
-                  alt="Vada"
-                  draggable={false}
-                  style={{
-                    width: '300px', // control vada size here
-                    height: 'auto',
-                    userSelect: 'none',
-                    WebkitUserSelect: 'none',
-                    MozUserSelect: 'none',
-                    msUserSelect: 'none',
-                    pointerEvents: 'none',
-                    display: 'block',
-                  }}
-                />
+                {/* Main vada image, cropped from right to left as bites increase, resets every 5 bites, with delay before next vada */}
+                {vadaVisible && bitesOnCurrentVada < 5 && (
+                  <img
+                    src={vadaImg2}
+                    alt="Vada"
+                    draggable={false}
+                    style={{
+                      width: '300px',
+                      height: 'auto',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none',
+                      pointerEvents: 'none',
+                      display: 'block',
+                      objectFit: 'cover',
+                      // Instantly crop from right to left based on bitesOnCurrentVada
+                      clipPath: `inset(0 ${bitesOnCurrentVada * 20}% 0 0)`,
+                    }}
+                  />
+                )}
               </div>
             </div>
             <Score bites={bites} />
