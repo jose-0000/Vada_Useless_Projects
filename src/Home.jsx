@@ -31,6 +31,7 @@ function Home() {
   const vadaSize = 30; // px, all vadas same size (smaller)
   const minDistance = 100; // px, minimum distance between vadas (increased for smaller size)
   const [buttonPos, setButtonPos] = useState({ top: '60%', left: '50%' });
+  const vadasEaten = Math.floor(bites / 5);
 
   // Generate random positions for vadas with minimum spacing
   function generateVadaPositions(count, minDist, size) {
@@ -52,8 +53,8 @@ function Home() {
       }
       if (!tooClose) {
         positions.push({
-          top: ${top}%,
-          left: ${left}%,
+          top: `${top}%`,
+          left: `${left}%`,
           animation: animations[Math.floor(Math.random() * animations.length)],
         //   rotation: 90,
         });
@@ -88,7 +89,7 @@ function Home() {
       // Generate random position within the allowed area
       const topPx = minTopPx + Math.random() * (maxTopPx - minTopPx);
       const leftPx = minLeftPx + Math.random() * (maxLeftPx - minLeftPx);
-      setButtonPos({ top: ${topPx}px, left: ${leftPx}px });
+      setButtonPos({ top: `${topPx}px`, left: `${leftPx}px` });
     }
   };
 
@@ -96,7 +97,7 @@ function Home() {
     <div
       style={{
         minHeight: '100vh',
-        backgroundImage: url(${mainPageBg2}),
+        backgroundImage: `url(${mainPageBg2})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -112,7 +113,7 @@ function Home() {
       {gameStarted && !gameOver && (
         <>
           {/* Timer should always be rendered and never remounted or paused by vada logic */}
-          <Timer initialSeconds={5} onEnd={() => setGameOver(true)} />
+          <Timer initialSeconds={15} onEnd={() => setGameOver(true)} />
           {/* Floating vadas in the background, randomly scattered with spacing */}
           {vadaPositions.map((pos, idx) => (
             <img
@@ -124,15 +125,15 @@ function Home() {
                 position: 'absolute',
                 top: pos.top,
                 left: pos.left,
-                width: ${vadaSize}px,
-                height: ${vadaSize}px,
+                width: `${vadaSize}px`,
+                height: `${vadaSize}px`,
                 opacity: 0.3,
                 pointerEvents: 'none',
                 userSelect: 'none',
                 zIndex: 0,
-                transform: translate(-50%, -50%) rotate(${pos.rotation}deg),
-                animation: ${pos.animation} 3s ease-in-out infinite,
-                animationDelay: ${(idx % 8) * 0.3}s,
+                transform: `translate(-50%, -50%) rotate(${pos.rotation}deg)`,
+                animation: `${pos.animation} 3s ease-in-out infinite`,
+                animationDelay: `${(idx % 8) * 0.3}s`,
               }}
             />
           ))}
@@ -159,7 +160,7 @@ function Home() {
                 {vadaVisible && bitesOnCurrentVada < 5 && (
                   <img
                     src={vadaStages[bitesOnCurrentVada]}
-                    alt={Vada bite ${bitesOnCurrentVada}}
+                    alt={`Vada bite ${bitesOnCurrentVada}`}
                     draggable={false}
                     style={{
                       width: '300px',
@@ -176,14 +177,14 @@ function Home() {
                 )}
               </div>
             </div>
-            <Score bites={bites} />
+            <Score bites={vadasEaten} />
           </div>
           <EatButton onClick={handleEatVada} position={buttonPos} />
         </>
       )}
 
       {/* Show result overlay when game is over */}
-      {gameOver && <Result score={bites} />}
+      {gameOver && <Result score={vadasEaten} />}
     </div>
   );
 }
