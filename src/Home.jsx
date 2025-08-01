@@ -79,6 +79,7 @@ function Home() {
         overflow: 'hidden',
       }}
     >
+      <Timer initialSeconds={30} onEnd={() => alert('Time is up!')} />
       {/* Floating vadas in the background, randomly scattered with spacing */}
       {vadaPositions.map((pos, idx) => (
         <img
