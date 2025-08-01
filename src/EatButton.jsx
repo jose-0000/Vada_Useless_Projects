@@ -10,6 +10,8 @@ const EatButton = ({ onClick, position }) => {
         top: position?.top || '60%',
         left: position?.left || '50%',
         transform: 'translate(-50%, -50%)',
+        zIndex: 2,
+        cursor: 'pointer',
       }}
       onClick={onClick}
     >
