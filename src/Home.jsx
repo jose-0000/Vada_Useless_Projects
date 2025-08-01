@@ -6,6 +6,10 @@ import mainPageBg2 from './assets/Main_Page_v2.png';
 import EatButton from './EatButton.jsx'
 import vadaImg from './assets/vada.png';
 import vadaImg2 from './assets/og_vada.png';
+import vadaBite1 from './assets/og_vada_bite1.png';
+import vadaBite2 from './assets/og_vada_bite2.png';
+import vadaBite3 from './assets/og_vada_bite3.png';
+import vadaBite4 from './assets/og_vada_bite4.png';
 import plateImg from './assets/plate_2.png';
 import Score from './Score.jsx';
 import Timer from './Timer.jsx';
@@ -15,6 +19,7 @@ function Home() {
   const [bites, setBites] = useState(0);
   // Show a new vada every 5 bites
   const bitesOnCurrentVada = bites % 5;
+  const vadaStages = [vadaImg2, vadaBite1, vadaBite2, vadaBite3, vadaBite4];
   const [vadaVisible, setVadaVisible] = useState(true);
   // Change this value to increase/decrease the boundary below the vada image and score
   const safeZoneHeight = 350; // px
@@ -178,11 +183,11 @@ function Home() {
                 />
               </div>
               <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-                {/* Main vada image, cropped from right to left as bites increase, resets every 5 bites, with delay before next vada */}
+                {/* Main vada image, changes to bite images as bites increase, resets every 5 bites, with delay before next vada */}
                 {vadaVisible && bitesOnCurrentVada < 5 && (
                   <img
-                    src={vadaImg2}
-                    alt="Vada"
+                    src={vadaStages[bitesOnCurrentVada]}
+                    alt={`Vada bite ${bitesOnCurrentVada}`}
                     draggable={false}
                     style={{
                       width: '300px',
@@ -194,8 +199,6 @@ function Home() {
                       pointerEvents: 'none',
                       display: 'block',
                       objectFit: 'cover',
-                      // Instantly crop from right to left based on bitesOnCurrentVada
-                      clipPath: `inset(0 ${bitesOnCurrentVada * 20}% 0 0)`,
                     }}
                   />
                 )}
