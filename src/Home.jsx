@@ -2,8 +2,12 @@ import { useState } from 'react'
 import mainPageBg from './assets/Main_Page.png';
 import EatButton from './EatButton.jsx'
 import vadaImg from './assets/vada.png';
+import Score from './Score.jsx';
 
 function Home() {
+  const [bites, setBites] = useState(0);
+  const handleEatVada = () => setBites(bites + 1);
+
   return (
     <div
       style={{
@@ -19,9 +23,11 @@ function Home() {
       }}
     >
       <img src={vadaImg} alt="Vada" style={{ maxWidth: '300px', width: '100%', height: 'auto', marginBottom: '24px' }} />
-      <EatButton />
+      <Score bites={bites} />
+      <EatButton onClick={handleEatVada} />
     </div>
   );
 }
 
 export default Home
+
