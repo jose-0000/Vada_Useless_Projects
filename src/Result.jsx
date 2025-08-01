@@ -1,40 +1,50 @@
+import React from 'react';
+import ashamedIkkaGif from './assets/ashamed_ikka.gif';
 function Result({ score }) {
   let message = '';
   let emoji = '';
   let title = '';
+  let imageSrc = ''; // New variable for the image source
   
   if (score >= 50) {
     title = "VADA LEGEND! 🌟";
     message = "Holy sambar! You devoured vadas like there's no tomorrow! You're officially a South Indian snack deity!";
     emoji = "🏆👑";
+    imageSrc = "https://i.imgur.com/your-legend-gif.gif"; // Placeholder for Legend GIF
   } else if (score >= 30) {
     title = "VADA MASTER! 🔥";
     message = "Incredible! You ate vadas faster than a chai-wallah serves tea! Your stomach is a temple of deliciousness!";
     emoji = "🥇🎉";
+    imageSrc = "https://i.imgur.com/your-master-gif.gif"; // Placeholder for Master GIF
   } else if (score >= 20) {
     title = "VADA CHAMPION! ⭐";
     message = "Amazing! You're like the Usain Bolt of vada eating! Those crispy golden rings didn't stand a chance!";
     emoji = "🏅✨";
+    imageSrc = "https://i.imgur.com/your-champion-gif.gif"; // Placeholder for Champion GIF
   } else if (score >= 15) {
     title = "VADA ENTHUSIAST! 🎯";
     message = "Fantastic! You showed those vadas who's boss! Your taste buds are doing a happy dance right now!";
     emoji = "🎊😋";
+    imageSrc = "https://i.imgur.com/your-enthusiast-gif.gif"; // Placeholder for Enthusiast GIF
   } else if (score >= 10) {
     title = "DECENT MUNCHER! 👍";
-    message = "Not bad at all! You managed to satisfy your vada cravings quite nicely. Room for improvement though!";
+    message = "Who hurt you? Why are you eating like rent’s due?";
     emoji = "😊🍽️";
+    imageSrc = "https://i.imgur.com/your-decent-gif.gif"; // Placeholder for Decent GIF
   } else if (score >= 5) {
     title = "ROOKIE NIBBLER 🐣";
-    message = "Hey, everyone starts somewhere! Those vadas were just warming up for you. Try again!";
+    message = "Is this your warm-up round or… the actual attempt?";
     emoji = "😅🤏";
+    imageSrc = "https://i.imgur.com/your-rookie-gif.gif"; // Placeholder for Rookie GIF
   } else if (score >= 1) {
     title = "VADA BEGINNER 😬";
-    message = "Oops! Looks like you were too busy admiring the vadas instead of eating them! They're meant to be eaten, not photographed!";
+    message = "This isn’t a diet plan, it's a game. Try again.";
     emoji = "😂📸";
+    imageSrc = "https://i.imgur.com/your-beginner-gif.gif"; // Placeholder for Beginner GIF
   } else {
-    title = "DID YOU EVEN PLAY? 🤔";
-    message = "Zero vadas eaten? Did you get distracted by the beautiful floating vadas in the background? The 'Eat Vada' button was right there!";
-    emoji = "😭🤷‍♂️";
+    title = "DID YOU EVEN PLAY? ";
+    message = "PANI EDTH JEEVIKEDA";
+    imageSrc = ashamedIkkaGif; // Placeholder for Zero Score GIF
   }
 
   const handlePlayAgain = () => {
@@ -74,6 +84,22 @@ function Result({ score }) {
           animation: 'popIn 0.6s ease-out 0.2s forwards',
         }}
       >
+        {/* New image element added here */}
+        {imageSrc && (
+          <img 
+            src={imageSrc} 
+            alt={title} 
+            style={{ 
+              width: 'auto', 
+              height: 'auto', 
+              maxHeight: '400px', 
+              objectFit: 'contain',
+              marginBottom: '1rem',
+              borderRadius: '12px'
+            }} 
+          />
+        )}
+        
         <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{emoji}</div>
         <h2 style={{ 
           fontSize: '2.5rem', 
