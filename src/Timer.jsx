@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-function Timer({ initialSeconds = 30, onEnd }) {
+function Timer({onEnd }) {
   const [seconds, setSeconds] = useState(initialSeconds);
 
   useEffect(() => {
