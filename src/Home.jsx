@@ -3,6 +3,7 @@ import mainPageBg from './assets/Main_Page.png';
 import EatButton from './EatButton.jsx'
 import vadaImg from './assets/vada.png';
 import Score from './Score.jsx';
+import Timer from './Timer.jsx';
 
 function Home() {
   const [bites, setBites] = useState(0);
@@ -40,6 +41,7 @@ function Home() {
         overflow: 'hidden',
       }}
     >
+     <Timer initialSeconds={30} onEnd={() => alert('Time is up!')} />
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
         <img
           src={vadaImg}
