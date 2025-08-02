@@ -12,9 +12,11 @@ import vadaBite2 from './assets/og_vada_bite2.png';
 import vadaBite3 from './assets/og_vada_bite3.png';
 import vadaBite4 from './assets/og_vada_bite4.png';
 import plateImg from './assets/plate_2.png';
+
 import Score from './Score.jsx';
 import Timer from './Timer.jsx';
 import Result from './Result.jsx';
+import taglineImg from './assets/tagline.png';
 
 import crunchSound from './assets/medu-vada-street-style-shorts_eqVtJV46.mp3'; // <-- ADDED: Import the sound file
 
@@ -125,7 +127,7 @@ function Home() {
       {gameStarted && !gameOver && (
         <>
           {/* Timer should always be rendered and never remounted or paused by vada logic */}
-          <Timer initialSeconds={15} onEnd={() => setGameOver(true)} />
+          <Timer initialSeconds={30} onEnd={() => setGameOver(true)} />
           {/* Floating vadas in the background, randomly scattered with spacing */}
           {vadaPositions.map((pos, idx) => (
             <img
@@ -150,48 +152,65 @@ function Home() {
             />
           ))}
           {/* Main content */}
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', position: 'relative', zIndex: 1 }}>
-            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img
-                  src={plateImg}
-                  alt="Plate"
-                  draggable={false}
-                  style={{
-                    width: '500px', // control plate size here
-                    height: 'auto',
-                    userSelect: 'none',
-                    pointerEvents: 'none',
-                    zIndex: 1,
-                    display: 'block',
-                  }}
-                />
-              </div>
-              <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', zIndex: 2 }}>
-                {/* Main vada image, changes to bite images as bites increase, resets every 5 bites, with delay before next vada. Rotates for each vada. */}
-                {vadaVisible && bitesOnCurrentVada < 5 && (
-                  <img
-                    src={vadaStages[bitesOnCurrentVada]}
-                    alt={`Vada bite ${bitesOnCurrentVada}`}
-                    draggable={false}
-                    style={{
-                      width: '300px',
-                      height: 'auto',
-                      userSelect: 'none',
-                      WebkitUserSelect: 'none',
-                      MozUserSelect: 'none',
-                      msUserSelect: 'none',
-                      pointerEvents: 'none',
-                      display: 'block',
-                      objectFit: 'cover',
-                      transform: `rotate(${vadaRotation}deg)`,
-                    }}
-                  />
-                )}
-              </div>
-            </div>
-            <Score bites={vadasEaten} />
-          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-start', height: '100vh', position: 'relative', zIndex: 1 }}>
+            {/* Title text above plate and vada */}
+            <h1 style={{ fontSize: '2.8rem', fontWeight: 'bold', color: '#d97706', marginTop: '48px', marginBottom: '8px', textShadow: '2px 2px 8px rgba(0,0,0,0.08)' }}>
+              Vada Adi
+            </h1>
+            <div style={{ marginBottom: '24px' }}>
+              <img
+                src={taglineImg}
+                alt="Tagline"
+                style={{
+                  maxWidth: '340px',
+                  width: '100%',
+                  height: 'auto',
+                  display: 'block',
+                  margin: '0 auto',
+                }}
+              />
+            </div>
+            <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', marginBottom: '24px', marginTop: '48px' }}>
+              <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={plateImg}
+                  alt="Plate"
+                  draggable={false}
+                  style={{
+                    width: '500px', // control plate size here
+                    height: 'auto',
+                    userSelect: 'none',
+                    pointerEvents: 'none',
+                    zIndex: 1,
+                    display: 'block',
+                  }}
+                />
+              </div>
+              <div style={{ position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -40%)', zIndex: 2 }}>
+                {/* Main vada image, changes to bite images as bites increase, resets every 5 bites, with delay before next vada. Rotates for each vada. */}
+                {vadaVisible && bitesOnCurrentVada < 5 && (
+                  <img
+                    src={vadaStages[bitesOnCurrentVada]}
+                    alt={`Vada bite ${bitesOnCurrentVada}`}
+                    draggable={false}
+                    style={{
+                      width: '300px',
+                      height: 'auto',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none',
+                      pointerEvents: 'none',
+                      display: 'block',
+                      objectFit: 'cover',
+                      transform: `rotate(${vadaRotation}deg)`,
+                    }}
+                  />
+                )}
+              </div>
+            </div>
+            <Score bites={vadasEaten} />
+          </div>
           <EatButton onClick={handleEatVada} position={buttonPos} />
         </>
       )}
