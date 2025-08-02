@@ -56,6 +56,9 @@ For Software:
 https://drive.google.com/file/d/19wsz6jKVwiVn9hiW-tFCg8Fy7f5mJ5GC/view?usp=sharing
 *This demo video shows the gameplay of competitive vada eating nature of our project, including randomized button position to put in a bit more challenge for people who try out the ultimate vada eating challenge.*
 
+## Project Deployment Link
+https://useless-2-0-tau.vercel.app/
+
 ## Team Contributions
 - Ann Maria Jose: Added timer, score components and implemented munching sound effect. Added final result memes and "inspirational" messages.
 - Sathyajith N S: Created general outline of UI, implemented the vada, plate and other ui elements and animation. Added Result component.
