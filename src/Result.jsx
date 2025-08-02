@@ -3,13 +3,14 @@ import ashamedIkkaGif from './assets/ashamed_ikka.gif';
 import angry_ikka from './assets/angry_ikka.jpeg';
 import surprised_ikka from './assets/surprised_ikka.gif';
 import intersted_ikka from './assets/interested_ikka.jpg';
+import happy_ikka from './assets/happy_ikka.png';
 
 
 function Result({ score }) {
-  let message = '';
-  let emoji = '';
-  let title = '';
-  let imageSrc = ''; 
+ let message = '';
+ let emoji = '';
+ let title = '';
+ let imageSrc = ''; 
 
   if (score >= 50) {
     title = "VADA LEGEND! 🌟";
@@ -26,11 +27,11 @@ function Result({ score }) {
     message = "Amazing! You're like the Usain Bolt of vada eating! Those crispy golden rings didn't stand a chance!";
     emoji = "🏅✨";
     imageSrc = "https://i.imgur.com/your-champion-gif.gif";
-  } else if (score >= 15) {
-    title = "VADA ENTHUSIAST! 🎯";
-    message = "Fantastic! You showed those vadas who's boss! Your taste buds are doing a happy dance right now!";
-    emoji = "🎊😋";
-    imageSrc = "https://i.imgur.com/your-enthusiast-gif.gif";
+  } else if (score >= 6) {
+    title = "FERFECT OKEY";
+    message = "You’ve consumed enough calories to fuel a small village for a month. Hope you've made peace with your life insurance provider.";
+
+    imageSrc = happy_ikka;
   } else if (score >= 4) {
     title = "YEVAN PULI AANALLA";
     message = "Who hurt you? Why are you eating like rent’s due?";
