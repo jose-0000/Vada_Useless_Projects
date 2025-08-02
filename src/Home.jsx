@@ -127,7 +127,7 @@ function Home() {
       {gameStarted && !gameOver && (
         <>
           {/* Timer should always be rendered and never remounted or paused by vada logic */}
-          <Timer initialSeconds={30} onEnd={() => setGameOver(true)} />
+          <Timer initialSeconds={15} onEnd={() => setGameOver(true)} />
           {/* Floating vadas in the background, randomly scattered with spacing */}
           {vadaPositions.map((pos, idx) => (
             <img
